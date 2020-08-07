@@ -1,3 +1,7 @@
+drop database if exists `shopese-thien`;
+create database `shopese-thien`;
+use `shopese-thien`;
+
 #
 # TABLE STRUCTURE FOR: account
 #
