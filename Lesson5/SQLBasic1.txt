@@ -1,0 +1,25 @@
+-- Bài 1
+-- a. Đưa ra danh sách (Địachỉ, Tênchủnhà) của những ngôi nhà có giá thuê ít hơn 1500
+
+select manha, diachi, giathue
+from nhachothue
+where giathue < 1500;
+
+-- b. Đưa ra danh sách (MãKH, Họtên, Cơquan) của những người đã từng thuê nhà của chủ nhà có tên là "Kenneth Schmeler IV"
+
+select distinct K.makh, K.hoten, K.coquan, N.tenchunha
+from khachhang as K 
+inner join hopdong as H on K.makh=H.makh
+inner join nhachothue as N on N.manha=H.manha
+where N.tenchunha='Kenneth Schmeler IV';
+
+-- c. Đưa ra danh sách các ngôi nhà chưa từng được ai thuê
+
+select *
+from nhachothue as N 
+where manha not in (select manha from hopdong);
+
+-- d. Đưa ra giá thuê cao nhất trong số các giá thuê của các ngôi nhà đã từng ít nhất một lần được thuê.
+
+select max(giathue)
+from hopdong as H inner join nhachothue as N on H.manha = N.manha;
