@@ -1,14 +1,21 @@
-const getAllCategory = (req, res) => {
-  console.log(req.params);
-  console.log(req.body);
-  console.log(req.query.id);
+const categoryService = require('../services/category')
+
+const getAllCategory = async (req, res) => {
+  const data = await categoryService.getAllCategory()
   res.send({
-    name: 'thien'
+    status: 1,
+    data
   })
 }
-const getCategoryById = (req, res) => {
-  console.log(req.query.id);
-  res.send('get one')
+
+const getCategoryById = async (req, res) => {
+  const { id } = req.params; // values
+  // const id  = req.params.id; // references
+  const data = await categoryService.getCategoryById(id)
+   res.send({
+    status: 1,
+    data
+  })
 }
 const createCategory = (req, res) => {
   res.send('create')

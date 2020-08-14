@@ -2,25 +2,25 @@ const express = require('express');
 const bodyParser = require('body-parser')
 
 const app = express();
-
+const port = 7000;
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
  
 // parse application/json
 app.use(bodyParser.json())
 
+// parse multipart/form-data
+
 const categoryRoute = require('./routers/category');
 
 app.use('/api/v1/category', categoryRoute);
-const hamxuli = (req, res) => {
-  // client : req câu hỏi 
-  // server : res câu trả lời
-  
-  res.send('API is running');
 
+const checkHealth = (req, res) => {
+  
+  res.send(`API running at ${port}`)
 }
 
-app.get('/:id', hamxuli)
+app.get('/', checkHealth)
 
 // thằng này phải viết ở cuối file 
 app.listen(7000, err => {
