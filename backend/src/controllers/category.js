@@ -1,7 +1,8 @@
 const categoryService = require('../services/category')
 
 const getAllCategory = async (req, res) => {
-  const { data, metadata } = await categoryService.getAllCategory() 
+  console.log(req.query);
+  const { data, metadata } = await categoryService.getAllCategory(req.pagination) 
   res.send({
     status: 1,
     data,
@@ -10,7 +11,7 @@ const getAllCategory = async (req, res) => {
 }
 const getCategoryById = async (req, res) => {
   const { id } = req.params;
-  const data = await categoryService.getCategoryById(id)
+  const { data } = await categoryService.getCategoryById(id);
   res.send({
       status: 1,
       data
@@ -37,6 +38,7 @@ const deleteCategory = async (req, res) => {
   })
 }
 
+// router => controllers => services 
 module.exports = {
   getAllCategory,
   getCategoryById,

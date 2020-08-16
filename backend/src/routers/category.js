@@ -7,4 +7,5 @@ R.post('/', categoryController.createCategory)
 R.put('/:id', categoryController.updateCategory)
 R.delete('/:id', categoryController.deleteCategory)
 
+
 module.exports = R

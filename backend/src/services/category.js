@@ -1,20 +1,18 @@
 const db = require('../utils/db')
 
-const getAllCategory = async ({ page, size} = {page: 1, size: 5}) => {
-  // 1 2 3 4 5 6 7 8 9 10
-  // page 1 2 3 4 5
-  // page 5 6 7 8 6
+const getAllCategory = async ({ limit, offset}) => {
   const sql = `
   SELECT display, description, imageUrl, categoryId
   FROM category
+  WHERE isDelete = 0
   LIMIT ?
   OFFSET ?`
+  const data = await db.queryMulti(sql,[limit, offset]);
+  
   const countSql = `
   SELECT count(categoryId) as total
-  FROM category;`
-  const offset = (page - 1) * size ;
-  const data = await db.queryMulti(sql,[size, offset]);
-  const {total} = await db.queryOne(countSql);
+  FROM category;`;
+  const { total } = await db.queryOne(countSql);
 
   return {
     data,
@@ -29,10 +27,12 @@ const getCategoryById = async (id) => {
   const sql = `
   SELECT display, description, imageUrl
   FROM category
-  WHERE categoryId = ?
+  WHERE categoryId = ? AND isDelete = 0
   LIMIT 1;`
-  const result = await db.queryOne(sql, [id])
-  return result
+  const data = await db.queryOne(sql, [id])
+  return {
+    data
+  }
 };
 
 const createCategory = async ({ display, description, imageUrl }) => {
@@ -54,20 +54,40 @@ const updateCategoryById = async (id, { display, description, imageUrl }) => {
     display = ?,
     description = ?,
     imageUrl = ?
-  WHERE categoryId = ?;`
+  WHERE categoryId = ? AND isDelete = 0;`
   await db.query(sql, [display, description, imageUrl, id])
 };
 
 const deleteCategoryById = async (id) => {
   // ko nen delete han ma chi nen an di thoi 
-  const offFK = `SET FOREIGN_KEY_CHECKS = 0;`
-  const onFK = `SET FOREIGN_KEY_CHECKS = 1;`
+  // const offFK = `SET FOREIGN_KEY_CHECKS = 0;`
+  // const onFK = `SET FOREIGN_KEY_CHECKS = 1;`
+  // const sql = `
+  // DELETE FROM category
+  // WHERE categoryId = ?;`
+  // await db.query(offFK)
+  // await db.query(sql, [id])
+  // await db.query(onFK)
   const sql = `
-  DELETE FROM category
+  UPDATE category
+  SET 
+    isDelete = 1
   WHERE categoryId = ?;`
-  await db.query(offFK)
-  await db.query(sql, [id])
-  await db.query(onFK)
+  await db.query(sql, [id]);
+};
+
+const getAllCategoryId = async () => {
+  const sql = `
+  SELECT categoryId, display
+  FROM category
+  WHERE isDelete = 0`
+  const data = await db.queryMulti(sql);
+  return {
+    data,
+    metadata: {
+      length: data.length,
+    }
+  }
 };
 
 module.exports = {
@@ -75,5 +95,6 @@ module.exports = {
   getCategoryById,
   createCategory,
   updateCategoryById,
-  deleteCategoryById
+  deleteCategoryById,
+  getAllCategoryId
 }
