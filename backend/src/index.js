@@ -38,10 +38,28 @@ const categoryRouter = require('./routers/category')
 const parameterRouter = require('./routers/parameter')
 const productRouter = require('./routers/product')
 
-app.use('/api/v1/category', categoryRouter);
+// app.use('/api/v1/category', categoryRouter);
 app.use('/api/v1/parameter', parameterRouter);
 app.use('/api/v1/product', productRouter);
 
+const CRUD = require('./middlewares/CRUD')
+app.use('/api/v1/category',
+  CRUD(
+    'category',
+    { GET: true, POST: true, PUT: true, DELETE: true },
+    'categoryId',
+    ['display', 'imageUrl', 'categoryId'],
+    'isDelete'
+  ));
+
+app.use('/api/v1/order',
+  CRUD(
+    'order',
+    { GET: true, POST: true, PUT: true, DELETE: true },
+    'orderId',
+    ['username', 'productId', 'price'],
+    'isDelete'
+  ));
 
 app.use(middleware)
 

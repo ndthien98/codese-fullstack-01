@@ -2,7 +2,7 @@ const categoryService = require('../services/category')
 
 const getAllCategory = async (req, res) => {
   console.log(req.query);
-  const { data, metadata } = await categoryService.getAllCategory(req.pagination) 
+  const { data, metadata } = await categoryService.getAll(req.pagination) 
   res.send({
     status: 1,
     data,
@@ -11,28 +11,28 @@ const getAllCategory = async (req, res) => {
 }
 const getCategoryById = async (req, res) => {
   const { id } = req.params;
-  const { data } = await categoryService.getCategoryById(id);
+  const { data } = await categoryService.getById(id);
   res.send({
       status: 1,
       data
     })
 }
 const createCategory = async (req, res) => {
-  await categoryService.createCategory(req.body)
+  await categoryService.create(req.body)
   res.send({
     status: 1,
   })
 }
 const updateCategory = async (req, res) => {
   const { id } = req.params;
-  await categoryService.updateCategoryById(id, req.body)
+  await categoryService.updateById(id, req.body)
   res.send({
     status: 1,// true - 1, false 0
   })
 }
 const deleteCategory = async (req, res) => {
   const { id } = req.params;
-  await categoryService.deleteCategoryById(id)
+  await categoryService.deleteById(id)
   res.send({
     status: 1,// true - 1, false 0
   })

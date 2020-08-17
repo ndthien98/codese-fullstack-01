@@ -1,6 +1,6 @@
 const db = require('../utils/db')
 
-const getAllProduct = async ({ limit, offset }) => {
+const getAll = async ({ limit, offset }) => {
   const sql = `
   SELECT productId, display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId, created_at, updated_at
   FROM product
@@ -23,7 +23,7 @@ const getAllProduct = async ({ limit, offset }) => {
   }
 }
 
-const getProductById = async (id) => {
+const getById = async (id) => {
   const sql = `
   SELECT productId, display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId, created_at, updated_at
   FROM product
@@ -33,17 +33,17 @@ const getProductById = async (id) => {
     data
   }
 }
-const createProduct = async ({display, provider,description, imageUrl,priceIn, priceOut, priceSale,shipday, instock, status, categoryId }) => {
+const create = async ({display, provider,description, imageUrl,priceIn, priceOut, priceSale,shipday, instock, status, categoryId }) => {
   const sql = `
   INSERT INTO product(productId, display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId) 
   VALUES(uuid(),?,?,?,?,?,?,?,?,?,?,?);`
   await db.query(sql,[display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId])
 }
-const updateProductById = async (
+const updateById = async (
   productId,
   { display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId }) => {
   const sql = `
-  UPDATE product
+  UPDATE product 
   SET 
     display = ?, 
     provider = ?, 
@@ -60,7 +60,7 @@ const updateProductById = async (
   ;`;
   await db.query(sql,[display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId, productId])
 }
-const deleteProductById = async (id) => {
+const deleteById = async (id) => {
   const sql = `
   UPDATE product
   SET 
@@ -69,10 +69,25 @@ const deleteProductById = async (id) => {
   await db.query(sql, [id]);
 }
 
+const getAllId = async () => {
+  const sql = `
+  SELECT productId, display
+  FROM product
+  WHERE isDelete = 0`
+  const data = await db.queryMulti(sql);
+  return {
+    data,
+    metadata: {
+      length: data.length,
+    }
+  }
+};
+
 module.exports = {
-  getAllProduct,
-  getProductById,
-  createProduct,
-  updateProductById,
-  deleteProductById
+  getAll,
+  getById,
+  create,
+  updateById,
+  deleteById,
+  getAllId
 }

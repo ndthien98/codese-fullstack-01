@@ -1,6 +1,6 @@
 const db = require('../utils/db')
 
-const getAllCategory = async ({ limit, offset}) => {
+const getAll = async ({ limit, offset}) => {
   const sql = `
   SELECT display, description, imageUrl, categoryId
   FROM category
@@ -23,7 +23,7 @@ const getAllCategory = async ({ limit, offset}) => {
   }
 };
 
-const getCategoryById = async (id) => {
+const getById = async (id) => {
   const sql = `
   SELECT display, description, imageUrl
   FROM category
@@ -35,7 +35,7 @@ const getCategoryById = async (id) => {
   }
 };
 
-const createCategory = async ({ display, description, imageUrl }) => {
+const create = async ({ display, description, imageUrl }) => {
   console.log({ display, description, imageUrl });  
   const sql = `
   INSERT INTO category(categoryId,display,description,imageUrl)
@@ -47,7 +47,7 @@ const createCategory = async ({ display, description, imageUrl }) => {
 //   const { display, description, imageUrl } = category;
 // }
 
-const updateCategoryById = async (id, { display, description, imageUrl }) => {
+const updateById = async (id, { display, description, imageUrl }) => {
   const sql = `
   UPDATE category
   SET 
@@ -58,7 +58,7 @@ const updateCategoryById = async (id, { display, description, imageUrl }) => {
   await db.query(sql, [display, description, imageUrl, id])
 };
 
-const deleteCategoryById = async (id) => {
+const deleteById = async (id) => {
   // ko nen delete han ma chi nen an di thoi 
   // const offFK = `SET FOREIGN_KEY_CHECKS = 0;`
   // const onFK = `SET FOREIGN_KEY_CHECKS = 1;`
@@ -76,7 +76,7 @@ const deleteCategoryById = async (id) => {
   await db.query(sql, [id]);
 };
 
-const getAllCategoryId = async () => {
+const getAllId = async () => {
   const sql = `
   SELECT categoryId, display
   FROM category
@@ -91,10 +91,10 @@ const getAllCategoryId = async () => {
 };
 
 module.exports = {
-  getAllCategory,
-  getCategoryById,
-  createCategory,
-  updateCategoryById,
-  deleteCategoryById,
-  getAllCategoryId
+  getAll,
+  getById,
+  create,
+  updateById,
+  deleteById,
+  getAllId
 }
