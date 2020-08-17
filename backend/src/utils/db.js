@@ -8,8 +8,15 @@ const pool = mysql.createPool({
   database: process.env.DB_DATABASE,
 })
 
+const logMySQLQuerry = (sql, params) => {
+  console.log('sql: ',
+    mysql.format(sql, params)
+      .replace(/\r?\n|\r/g, ' ') // xoá dấu xuống dòng
+      .split(' ').filter(e => e !== '').join(' ')); // loại bỏ khoảng trắng thừa kiểu như này 'SELECT     * FROM     WHERE   ' 
+}
 
-const query = (sql,params) => {
+const query = (sql, params) => {
+  logMySQLQuerry(sql,params)
   return new Promise((resolve, reject) => {
     pool.query(sql, params, (err, result) => {
       if (err) reject(err)
@@ -17,7 +24,9 @@ const query = (sql,params) => {
     })
   })  
 }
-const queryOne = (sql,params) => {
+
+const queryOne = (sql, params) => {
+  logMySQLQuerry(sql,params)
   return new Promise((resolve, reject) => {
     pool.query(sql, params, (err, result) => {
       if (err) reject(err)
@@ -25,7 +34,9 @@ const queryOne = (sql,params) => {
     })
   })    
 }
-const queryMulti = (sql,params) => {
+
+const queryMulti = (sql, params) => {
+  logMySQLQuerry(sql,params)
   return new Promise((resolve, reject) => {
     pool.query(sql, params, (err, result) => {
       if (err) reject(err)
@@ -33,7 +44,6 @@ const queryMulti = (sql,params) => {
     })
   })  
 }
-
 
 module.exports = {
   query,

@@ -24,23 +24,28 @@ app.use(bodyParser.json())
 app.use(pagination)
 
 app.use((req, res, next) => {
-  console.log('paging',req.pagination);
+  console.log('------------------------------------------------------');
+  console.log('req', req.method, req.originalUrl);
+  console.log('body: ', req.body);
+  console.log('params: ', req.params);
+  console.log('query: ',req.query);
   next()
 })
 
-const middleware = (req, res, next) => {
-  console.log(Date());
-  next();
-}
 
 // 2. router
-const categoryRouter = require('./routers/category')
 const parameterRouter = require('./routers/parameter')
-const productRouter = require('./routers/product')
+// const categoryRouter = require('./routers/category')
+// const productRouter = require('./routers/product')
+// const orderRouter = require('./routers/order')
+// const accountRouter = require('./routers/account')
 
-// app.use('/api/v1/category', categoryRouter);
 app.use('/api/v1/parameter', parameterRouter);
-app.use('/api/v1/product', productRouter);
+// app.use('/api/v1/category', categoryRouter);
+// app.use('/api/v1/product', productRouter);
+// app.use('/api/v1/order', orderRouter);
+// app.use('/api/v1/account', accountRouter);
+
 
 const CRUD = require('./middlewares/CRUD')
 app.use('/api/v1/category',
@@ -48,20 +53,36 @@ app.use('/api/v1/category',
     'category',
     { GET: true, POST: true, PUT: true, DELETE: true },
     'categoryId',
-    ['display', 'imageUrl', 'categoryId'],
+    ['display', 'imageUrl', 'description'],
     'isDelete'
   ));
 
+app.use('/api/v1/product',
+  CRUD(
+    'product',
+    { GET: true, POST: true, PUT: true, DELETE: true },
+    'productId',
+    ['display', 'provider', 'description', 'imageUrl', 'priceIn', 'priceOut', 'priceSale', 'shipday', 'instock', 'status', 'categoryId'],
+    'isDelete'
+  )
+)
 app.use('/api/v1/order',
   CRUD(
     'order',
     { GET: true, POST: true, PUT: true, DELETE: true },
     'orderId',
-    ['username', 'productId', 'price'],
+    ['username', 'productId', 'price', 'amount', 'note', 'status'],
     'isDelete'
   ));
 
-app.use(middleware)
+app.use('/api/v1/account',
+  CRUD(
+    'account',
+    { GET: true, POST: true, PUT: true, DELETE: true },
+    'username',
+    ['password', 'role', 'display', 'email', 'phone', 'address', 'birthday', 'avatar', 'status'],
+    'isDelete'
+  ));
 
 // 3. listen
 const PORT = process.env.API_PORT;
