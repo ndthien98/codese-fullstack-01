@@ -9,6 +9,7 @@ const getAllCategory = async (req, res) => {
     metadata,
   })
 }
+
 const getCategoryById = async (req, res) => {
   const { id } = req.params;
   const { data } = await categoryService.getById(id);
