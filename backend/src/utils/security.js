@@ -25,11 +25,15 @@ const generateToken = ({ username, role }) => {
 }
 
 // 3. xác thực mã hoá 1 chiều 
-const verifyPassword = async  (password, hashedPassword) => {
-  const result = await bcrypt.compare(password, hashedPassword);
+const verifyPassword = async (password, hashedPassword) => {
+  const result =
+    await bcrypt.compare(
+      password,
+      hashedPassword
+    );
   console.log(result ? 'dung' : 'sai');
   return result;
-}
+};
 
 // 4. giải mã mã hoá 2 chiều
 
