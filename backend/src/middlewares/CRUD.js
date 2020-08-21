@@ -19,6 +19,7 @@ const CRUD = (
   const isDeleleFieldName = addBackQuote(_isDeleleFieldName);
   const fieldNames = _fieldNames.map(addBackQuote).reduce(addComma);
   const questionMark = _fieldNames.map(toQuestionMark).reduce(addComma);
+  const isDeleleFieldName = addBackQuote(_isDeleleFieldName);
   
   const Router = express.Router();
   if (GET) {
@@ -84,7 +85,7 @@ const CRUD = (
         .map(e => `${addBackQuote(e)} = ?`)
         .reduce(addComma)
       }
-      WHERE ${primaryKeyName} = ? AND \`${_isDeleleFieldName}\` = 0;`;
+      WHERE ${primaryKeyName} = ? AND ${isDeleleFieldName} = 0;`;
       await db.query(sql,[...mapBodyToParams(req),req.params.id]);
       res.send({
         status: 1,
