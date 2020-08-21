@@ -71,7 +71,7 @@ const deleteById = async (id) => {
 
 const getAllId = async () => {
   const sql = `
-  SELECT productId, displaay
+  SELECT productId, display
   FROM product
   WHERE isDelete = 0`
   const data = await db.queryMulti(sql);

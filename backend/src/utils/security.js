@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-// npm i bcrypt ( nếu lỗi chạy 'npm i node-gyp')
+// npm i bcrypt ( nếu lỗi chạy 'npm i node-gyp' xong rồi chạy npm i bcrypt)
 const jwt = require('jsonwebtoken')
 
 const { JWT_SECRET_KEY } = process.env;
@@ -36,7 +36,6 @@ const verifyPassword = async (password, hashedPassword) => {
 };
 
 // 4. giải mã mã hoá 2 chiều
-
 const verifyToken = token => {
   const data = jwt.verify(token, JWT_SECRET_KEY);
   return data
