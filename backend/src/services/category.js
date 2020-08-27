@@ -1,3 +1,4 @@
+// model = định nghĩa, mô hình hoá, và truy xuất dữ liệu và interface
 const db = require('../utils/db')
 
 const getAll = async ({ limit, offset}) => {

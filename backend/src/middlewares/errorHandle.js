@@ -7,6 +7,7 @@ const tryCatch = (f) => async (req, res, next) => {
 }
 
 const errorHandle = (err, req, res, next) => {
+  console.log(err);
   if (err.code < 500 && err.code > 400) {
     res.status(err.code)
     res.send(err.message)

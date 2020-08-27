@@ -13,6 +13,7 @@ const app = express()
 
 // 1. middlewares ( bodyparser , ... )
 app.use(bodyParser.json())
+
 var accessLogStream = rfs.createStream('access.log', {
   interval: '1d', // rotate daily
   path: path.join(__dirname, 'log')
