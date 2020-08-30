@@ -8,12 +8,19 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const rfs = require('rotating-file-stream')
 const pagination = require('./middlewares/pagination')
-
+const cors = require('cors') // npm i cors
 const app = express()
 
 // 1. middlewares ( bodyparser , ... )
-app.use(bodyParser.json())
-
+app.use(bodyParser.json());
+app.use(cors(
+  {
+  origin: '*',
+  'Access-Control-Expose-Headers': 'Content-Range',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  optionsSuccessStatus: 200, 
+  }
+)); // cross origin resource sharing 
 var accessLogStream = rfs.createStream('access.log', {
   interval: '1d', // rotate daily
   path: path.join(__dirname, 'log')

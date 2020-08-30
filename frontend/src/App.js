@@ -2,21 +2,9 @@ import React, { useState } from 'react';
 import HomePage from './views/HomePage/HomePage';
 
 function App(props) {
-  const [version, setVersion] = useState(1)
-  function hamxuli() {
-    alert('đây là hàm xử lí')
-  }
   return <div>
-  <HomePage
-    params1='thien'
-    params2={hamxuli}
-    version={version}
-    setVersion={setVersion}
-  >
-    </HomePage>
-    <h1>{version}</h1>
+  <HomePage></HomePage>
   </div>
-  
 }
 
 export default App;

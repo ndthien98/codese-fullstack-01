@@ -1,128 +1,88 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'; // ES5
-// const React = require('react') // ES6
+import React from 'react'; 
 import {
-  TextField,
   Typography,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
   Button,
-  Paper,
+  Divider,
 } from '@material-ui/core'
-// properties
-function HomePage(props) {
-  // defined states
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  // const res.data.data[0].username;
+// const axios = require('axios');
+import axios from 'axios';
+
+class HomePage extends React.Component{
   
-  // handle function
-  function handleChangeUsername(event) {
-    setUsername(event.target.value)
+  constructor(props) {
+    super(props)
+    this.state = {
+      listProduct: [],
+      total: 0,
+      page: 2,
+      size: 20
+    }
+  }
+  async componentDidMount() {
+    const linkApi = 'http://192.168.1.62:5000/api/v1/product/'
+    const res = await axios.get(linkApi, {
+      params: {
+        page: this.state.page,
+        size: this.state.size,
+      }
+    });
+    console.log(res.data);
+    this.setState({
+      listProduct: res.data.data,
+      total: res.data.metadata.total
+    })
+  };
+
+  hamRenderProduct(product) {
+    return (
+      <Card>
+        <CardHeader title={product["display"]} style={{backgroundColor:'#456456'}}/>
+      <Divider></Divider>
+      <CardContent>
+        <Typography>{product.description}</Typography>
+      </CardContent>
+      <Divider></Divider>
+      <CardActions>
+        <Button>Chi tiết</Button>
+      </CardActions>
+    </Card>
+    );
+  };
+
+  prevPage(){
+    this.setState({
+      ...this.state,
+      page: this.state.page - 1
+    })
   }
 
-
-  function handleChangePassword(event) {
-    setPassword(event.target.value)
+  nextPage = () => {
+   this.setState({
+      ...this.state,
+      page: this.state.page + 1
+    })
+  }
+  render() {
+    return (
+      <div>
+        <Typography>Total: {this.state.total}</Typography> 
+        <Typography>Page: {this.state.page}</Typography>
+        <Typography>Size: {this.state.size}</Typography>
+        <Typography>paging: {this.state.page} - {Math.ceil(this.state.total/this.state.size)} </Typography>
+        <Button onClick={this.prevPage.bind(this)}>prev</Button>
+        <Button onClick={this.nextPage}>next</Button>
+        {this.state.listProduct.map(
+        (product) => this.hamRenderProduct(product)
+        )}
+    </div>
+    )
   }
 
-  const handleSignIn = () => {
-    if (password.length < 6) alert('password yếu');
-    console.log(username, password)
-  }
-  const handleSignUp = () => {
-    console.log('đây là prop params1: ', props.params1)
-    console.log('đây là prop p2: ', props.params2)
-    console.log('đây là prop p3: ', props.params3)
-    props.setVersion(props.version + 1)
-  }
-  
-  const buttonStyle = {
-    color: 'lightcyan',
-    backgroundColor: '#d32f2f',
-    margin: 10,
-    width: 200,
-    height: 50
-  }
-  function handleKeyPress(event) {
-    if (event.key === 'Enter') handleSignIn(); 
-  }
-  return <Paper style={{
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    padding: 20,
-    background: '#4fc3f7'
-  }}>
-    <TextField
-      label="Tài khoản"
-      type="text"
-      onKeyPress={handleKeyPress}
-      onChange={handleChangeUsername} />
-    
-    <TextField
-      label="Mật khẩu"
-      type="password"
-      onKeyPress={handleKeyPress}
-      onChange={handleChangePassword} />
-    
-    <Button onClick={handleSignIn} variant="contained" style={buttonStyle}>
-      <Typography>Đăng nhập</Typography>
-    </Button>
-
-    <Button onClick={handleSignUp} variant="text" style={buttonStyle}>
-      <Typography>Đăng ký</Typography>
-    </Button>
-  </Paper>
 }
 
-// class MyComponent extends React.Component{
-  
-//   constructor(props) {
-//     this.state = {
-//       username: 'thien',
-//       age: 12,
-//       password: ''
-//     }
-//   }
-  
-//   componentWillMount() {
-    
-//   }
-//   componentWillReceiveProps() {
-    
-//   }
-//   componentWillUpdate() {
-    
-//   }
-//   render() {
-//     return <div>
-//       <input></input>
-//     </div>
-//   }
-// }
-
-// class DoiTuong{
-//   name = 'thien';
-//   age = 12;
-//   id;
-
-//   thuoctinh1 = function ham(params) {
-    
-//   }
-
-// }
-
 export default HomePage;
-// module.exports = App;
-
-// https://material-ui.com/
-  // npm i @material-ui/core
-  // npm i @material-ui/icons
-  
-
-  // const handleChange = () => {
-  // }
-  // UI 
-  // material ui color tool 
-  // flex react js - chơi game này: froggy flex 
