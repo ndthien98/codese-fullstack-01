@@ -1,7 +1,9 @@
 // authentication
 const R = require('express').Router();
 const authController = require('../controllers/auth')
+const { requireLogin, requireRole } = require('../middlewares/auth')
 
-R.get('/login', authController.login);
+R.post('/login', authController.login);
+R.get('/', requireLogin, requireRole('ADMIN'), authController.getMe);
 
-module.exports = R
+module.exports = R;

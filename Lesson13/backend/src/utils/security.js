@@ -12,9 +12,9 @@ const generatePassword = async (password) => {
 }
 
 // 2. mã hoá 2 chiều - tạo access_token 
-const generateToken = ({ username, role }) => {
+const generateToken = (data) => {
   const token = jwt.sign(
-    { username, role },
+    data,
     JWT_SECRET_KEY,
     {
       expiresIn: 1000 * 60 * 60 * 24

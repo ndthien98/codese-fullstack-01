@@ -9,16 +9,16 @@ app.use(bodyParser.json())
 // controllers
 const accountRouter = require('./routers/account')
 const authRouter = require('./routers/auth')
-app.use('/api/account', accountRouter)
-app.use('/api/auth',authRouter)
+app.use('/api/account', accountRouter);
+app.use('/api/auth', authRouter);
 
 // after middlewares
 const log = (req, res, next) => {
   console.log('==========================')
   console.log('req.originalUrl\t', req.originalUrl);
   console.log('req.query\t', req.query);
-  console.log('req.body\t', req.body);
   console.log('req.params\t', req.params);
+  console.log('req.body\t', req.body); // chi post moi co 
   next();
 }
 app.use(log);

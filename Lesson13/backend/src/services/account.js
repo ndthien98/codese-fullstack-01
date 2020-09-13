@@ -13,20 +13,27 @@ const create = async (newAccount) => {
       await security.generatePassword(newAccount.password);
     console.log(encryptedPassword);
     const insertSQL = `
-      INSERT INTO account(username, password) VALUES ( ? , ? ) ;
+      INSERT INTO account(username, password, role, display) VALUES ( ? , ? , ? , ?) ;
     `;
     await db.query(insertSQL, [
       newAccount.username,
-      encryptedPassword
+      encryptedPassword,
+      newAccount.role,
+      newAccount.display
     ]);
     return "Tạo tài khoản thành công!";
   }
 }
 
-// thành công - 200 
-// thất bại - [400 -500]
 
+const getUserByUsername = async (username) => {
+  const sql = `
+  SELECT username, role, display FROM account WHERE username = ? `
+  const result = await db.queryOne(sql, [username]);
+  return result;
+}
 
 module.exports = {
-  create
+  create,
+  getUserByUsername
 }

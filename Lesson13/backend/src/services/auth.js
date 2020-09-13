@@ -3,7 +3,7 @@ const security = require('../utils/security');
 
 const login = async (user) => {
   const getUserSQL = `
-    SELECT username, password FROM account WHERE username = ? ;
+    SELECT username, password, role FROM account WHERE username = ? ;
   `;
   const result = await db.queryOne(getUserSQL, [user.username]);
   console.log(result);
@@ -12,9 +12,10 @@ const login = async (user) => {
     result.password
   );
   if (compare) {
+    console.log(user);
     return security.generateToken({
-      username: user.username,
-      role: user.role
+      username: result.username,
+      role: result.role
     });
   } else {
     return false;
