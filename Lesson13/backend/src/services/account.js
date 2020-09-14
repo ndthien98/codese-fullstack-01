@@ -1,5 +1,5 @@
-const db = require('../utils/db')
-const security = require('../utils/security')
+const db = require('../utils/db');
+const security = require('../utils/security');
 
 const create = async (newAccount) => {
   const checkExistedSQL = `
@@ -9,13 +9,14 @@ const create = async (newAccount) => {
   if (exist.c > 0) {
     return {
       status: 0,
-      message: "Tài khoản đã tồn tại"
-    }
-  } else {
-    const encryptedPassword =
-      await security.generatePassword(newAccount.password);
-    console.log(encryptedPassword);
-    const insertSQL = `
+      message: 'Tài khoản đã tồn tại',
+    };
+  }
+  const encryptedPassword = await security.generatePassword(
+    newAccount.password,
+  );
+  console.log(encryptedPassword);
+  const insertSQL = `
       INSERT INTO account(
         username, 
         password, 
@@ -29,23 +30,22 @@ const create = async (newAccount) => {
       ) 
       VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ?) ;
     `;
-    await db.query(insertSQL, [
-      newAccount.username,
-      encryptedPassword,
-      newAccount.role,
-      newAccount.display,
-      newAccount.email,
-      newAccount.phone,
-      newAccount.avatar,
-      newAccount.address,
-      newAccount.birthday,
-    ]);
-    return {
-      status: 0,
-      message: "Tạo tài khoản thành công!"
-    }
-  }
-}
+  await db.query(insertSQL, [
+    newAccount.username,
+    encryptedPassword,
+    newAccount.role,
+    newAccount.display,
+    newAccount.email,
+    newAccount.phone,
+    newAccount.avatar,
+    newAccount.address,
+    newAccount.birthday,
+  ]);
+  return {
+    status: 0,
+    message: 'Tạo tài khoản thành công!',
+  };
+};
 
 const getAll = async (pagination) => {
   const sql = `
@@ -53,8 +53,11 @@ const getAll = async (pagination) => {
   FROM account
   WHERE isDelete = 0
   LIMIT ?
-  OFFSET ?`
-  const result = await db.queryMulti(sql, [pagination.limit, pagination.offset]);
+  OFFSET ?`;
+  const result = await db.queryMulti(sql, [
+    pagination.limit,
+    pagination.offset,
+  ]);
 
   const countSql = `
   SELECT count(username) as total
@@ -65,23 +68,23 @@ const getAll = async (pagination) => {
     status: 1,
     metadata: {
       length: result.length,
-      total
+      total,
     },
     data: result,
-  }
-}
+  };
+};
 
 const getByUsername = async (username) => {
   const sql = `
   SELECT username, role, display, email, phone, avatar, address, birthday, status
   FROM account
-  WHERE isDelete = 0 AND username = ?`
+  WHERE isDelete = 0 AND username = ?`;
   const result = await db.queryOne(sql, [username]);
   return {
     status: 1,
-    data: result
-  }
-}
+    data: result,
+  };
+};
 const updateByUsername = async (username, data) => {
   const sql = `
   UPDATE account
@@ -93,7 +96,7 @@ const updateByUsername = async (username, data) => {
     address = ?, 
     birthday = ?
   WHERE username = ? AND isDelete = 0;
-  `
+  `;
   await db.query(sql, [
     data.display,
     data.email,
@@ -101,25 +104,25 @@ const updateByUsername = async (username, data) => {
     data.avatar,
     data.address,
     data.birthday,
-    username
+    username,
   ]);
   return {
     status: 1,
-    message: "Update thành công!"
-  }
-}
+    message: 'Update thành công!',
+  };
+};
 const deleteByUsername = async (username) => {
   const sql = `
   UPDATE account
   SET 
     isDelete = 1
-  WHERE username = ?;`
+  WHERE username = ?;`;
   db.query(sql, [username]);
   return {
     status: 1,
-    message: "Xoá thành công!"
-  }
-}
+    message: 'Xoá thành công!',
+  };
+};
 
 module.exports = {
   create,
@@ -127,4 +130,4 @@ module.exports = {
   getByUsername,
   updateByUsername,
   deleteByUsername,
-}
+};
