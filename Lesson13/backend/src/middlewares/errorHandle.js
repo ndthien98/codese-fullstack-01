@@ -12,14 +12,14 @@ const errorHandle = (err, req, res, next) => {
     res.status(err.status).send(err);
   } else {
     res.status(500).send({
-      message: 'Có lỗi xảy ra!',
+      message: `Có lỗi xảy ra!`,
     });
   }
 };
 
 const pageNotFound = (req, res) => {
   res.status(404).send({
-    message: 'Đường dẫn không hợp lệ!',
+    message: `Đường dẫn không hợp lệ!`,
   });
 };
 

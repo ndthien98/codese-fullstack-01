@@ -1,4 +1,4 @@
-const authService = require('../services/auth');
+const authService = require(`../services/auth`);
 
 const login = async (req, res, next) => {
   const user = {
@@ -12,7 +12,7 @@ const login = async (req, res, next) => {
       token: result,
     });
   } else {
-    next('Đăng nhập thất bại');
+    next(`Đăng nhập thất bại`);
   }
 };
 

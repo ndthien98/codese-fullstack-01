@@ -21,8 +21,10 @@ module.exports = {
     'no-use-before-define': 'off',
     'no-restricted-syntax': 'off',
     'global-require': 'off',
-    "no-console": "warn",
-    "no-unused-vars": "warn"
+    'func-names': 'off',
+    'no-console': 'warn',
+    'no-unused-vars': 'warn',
+    'quotes': ["warn", "backtick"]
   },
   globals: {},
 };

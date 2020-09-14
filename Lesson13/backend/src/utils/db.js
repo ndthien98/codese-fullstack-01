@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require(`mysql`);
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -10,13 +10,13 @@ const pool = mysql.createPool({
 
 const logMySQLQuerry = (sql, params) => {
   console.log(
-    'sql: ',
+    `sql: `,
     mysql
       .format(sql, params)
-      .replace(/\r?\n|\r/g, ' ')
-      .split(' ')
-      .filter((e) => e !== '')
-      .join(' '),
+      .replace(/\r?\n|\r/g, ` `)
+      .split(` `)
+      .filter(e => e !== ``)
+      .join(` `),
   );
 };
 

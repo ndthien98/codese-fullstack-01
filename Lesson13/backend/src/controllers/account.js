@@ -1,4 +1,4 @@
-const accountService = require('../services/account');
+const accountService = require(`../services/account`);
 
 const createAccount = async (req, res, next) => {
   const newAccount = {
@@ -15,14 +15,14 @@ const createAccount = async (req, res, next) => {
   if (!newAccount.username) {
     const result = {
       status: 0,
-      message: 'Không được để trống tài khoản',
+      message: `Không được để trống tài khoản`,
     };
     res.status(400).send(result);
   }
   if (!newAccount.password || newAccount.password.length < 6) {
     const result = {
       status: 0,
-      message: 'Mật khẩu phải có độ dài lớn hơn 6 ký tự!',
+      message: `Mật khẩu phải có độ dài lớn hơn 6 ký tự!`,
     };
     res.status(400).send(result);
   }

@@ -1,7 +1,7 @@
-const db = require('../utils/db');
-const security = require('../utils/security');
+const db = require(`../utils/db`);
+const security = require(`../utils/security`);
 
-const create = async (newAccount) => {
+const create = async newAccount => {
   const checkExistedSQL = `
     SELECT count(username) as c FROM account WHERE username = ? ;
   `;
@@ -9,7 +9,7 @@ const create = async (newAccount) => {
   if (exist.c > 0) {
     return {
       status: 0,
-      message: 'Tài khoản đã tồn tại',
+      message: `Tài khoản đã tồn tại`,
     };
   }
   const encryptedPassword = await security.generatePassword(
@@ -43,11 +43,11 @@ const create = async (newAccount) => {
   ]);
   return {
     status: 0,
-    message: 'Tạo tài khoản thành công!',
+    message: `Tạo tài khoản thành công!`,
   };
 };
 
-const getAll = async (pagination) => {
+const getAll = async pagination => {
   const sql = `
   SELECT username, role, display, email, phone, avatar, address, birthday, status
   FROM account
@@ -74,7 +74,7 @@ const getAll = async (pagination) => {
   };
 };
 
-const getByUsername = async (username) => {
+const getByUsername = async username => {
   const sql = `
   SELECT username, role, display, email, phone, avatar, address, birthday, status
   FROM account
@@ -108,10 +108,10 @@ const updateByUsername = async (username, data) => {
   ]);
   return {
     status: 1,
-    message: 'Update thành công!',
+    message: `Update thành công!`,
   };
 };
-const deleteByUsername = async (username) => {
+const deleteByUsername = async username => {
   const sql = `
   UPDATE account
   SET 
@@ -120,7 +120,7 @@ const deleteByUsername = async (username) => {
   db.query(sql, [username]);
   return {
     status: 1,
-    message: 'Xoá thành công!',
+    message: `Xoá thành công!`,
   };
 };
 
