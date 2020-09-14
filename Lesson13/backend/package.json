@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src",
-    "savecode": "git add -A && git commit -m \"codemoi\" && git push origin master",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -16,6 +15,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "http-errors": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",

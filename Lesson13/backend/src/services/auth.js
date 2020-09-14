@@ -6,22 +6,32 @@ const login = async (user) => {
     SELECT username, password, role FROM account WHERE username = ? ;
   `;
   const result = await db.queryOne(getUserSQL, [user.username]);
-  console.log(result);
+  if (!result) return false;
   const compare = await security.verifyPassword(
     user.password,
     result.password
   );
   if (compare) {
-    console.log(user);
-    return security.generateToken({
+    const token = security.generateToken({
       username: result.username,
       role: result.role
     });
+    return token;
   } else {
     return false;
   }
 };
 
+const getMe = async (username) => {
+  const sql = `
+  SELECT username, role, display, email, phone, avatar, address, birthday, status
+  FROM account WHERE username = ? AND isDelete = 0;
+  `
+  const result = await db.queryOne(sql, [username]);
+  return result;
+}
+
 module.exports = {
-  login
+  login,
+  getMe
 }

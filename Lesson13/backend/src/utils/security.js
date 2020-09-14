@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt')
 // npm i bcrypt ( nếu lỗi chạy 'npm i node-gyp' xong rồi chạy npm i bcrypt)
-const jwt = require('jsonwebtoken')
 
-const { JWT_SECRET_KEY } = process.env;
+const jwt = require('jsonwebtoken')
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const SALT_ROUND = 10
 // 1. mã hoá 1 chiều - mã hoá password ở dạng plaintext => lưu vào database
@@ -30,7 +30,6 @@ const verifyPassword = async (password, hashedPassword) => {
       password,
       hashedPassword
     );
-  console.log(result ? 'dung' : 'sai');
   return result;
 };
 
@@ -42,7 +41,7 @@ const verifyToken = token => {
 
 module.exports = {
   generatePassword,
-  verifyPassword,
   generateToken,
+  verifyPassword,
   verifyToken
 }

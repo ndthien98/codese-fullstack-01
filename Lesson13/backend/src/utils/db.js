@@ -11,8 +11,8 @@ const pool = mysql.createPool({
 const logMySQLQuerry = (sql, params) => {
   console.log('sql: ',
     mysql.format(sql, params)
-      .replace(/\r?\n|\r/g, ' ') // xoá dấu xuống dòng
-      .split(' ').filter(e => e !== '').join(' ')); // loại bỏ khoảng trắng thừa kiểu như này 'SELECT     * FROM     WHERE   ' 
+      .replace(/\r?\n|\r/g, ' ')
+      .split(' ').filter(e => e !== '').join(' '));
 }
 
 const query = (sql, params) => {
