@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const APIAuth = axios.create({
   baseURL: 'localhost:9999'
@@ -15,14 +16,17 @@ APIAuth.interceptors.request.use(
     return Promise.reject(err);
   }
 );
+
 APIAuth.interceptors.response.use(
   res => {
     console.log(res.data);
   },
   err => {
-  
+    if (err.response.status === 401) {
+      Cookies.remove('token');
+      window.location = '/';
+    };
   }
 );
-
 
 export default APIAuth

@@ -1,109 +1,72 @@
-
-
 import React, { Component } from 'react'
-import axios from 'axios'
-import Cookie from 'js-cookie'
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom'
+import NormalLayout from './layout/NormalLayout';
+import { browserRouter } from "react-router";
+import UserLayout from './layout/UserLayout';
+import { createBrowserHistory } from "history";
+import HomePage from './views/HomePage';
+import SignIn from './views/SignIn';
+import User from './views/User';
+import Cookies from 'js-cookie'
+const history = createBrowserHistory();
+
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
-      token: Cookie.get('token'),
-      log: '',
-      ten: ['thien','tiep tuc la thien']
+      routers: [
+        {
+          component: HomePage,
+          layout: Cookies.get('token') ? UserLayout : NormalLayout,
+          path: '/',
+        },
+        {
+          component: SignIn,
+          layout: NormalLayout,
+          path: '/sign-in',
+        },
+        {
+          component: User,
+          layout: UserLayout,
+          path: '/me',
+        }
+      ]
     }
-  }
-
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-  handleChange2 = (index) => (event) => {
-    this.setState({
-      [name]: event.target.value
-    })
-  }
-
-  handleLogin = async () => {
-    // cross origin resource sharing 
-    // const result = await axios.post('http://localhost:9999/api/auth/login',
-    //   {
-    //     username: this.state.username,
-    //     password: this.state.password
-    //   },
-    // )
-
-    axios.get('/', {})
-      .then(data => {
-      
-    }).catch(err => {
-      
-    })
-
-    try {
-      await axios.get()
-    } catch (err) {
-      
-    }
-    const result = {
-      data: {
-        token: '123123'
-      }
-    }
-    //1 localStorage.setItem('token', result.data.token)
-    //2 dùng cookie
-  
-    Cookie.set('token', result.data.token, {
-      expires: 365
-    });
-  }
-  handleChangeName = (index) => (event) => {
-    // treat state as immutable / mutable
-    const newTen = { ...this.state.ten };
-    newTen[index] = event.target.value
-    this.setState({
-      ten: newTen
-    });
   }
   render() {
     return (
-      <div>
-        <h1> đăng nhập </h1>
-        <input
-          name="username"
-          onChange={this.handleChange}
-          type="text"
-          value={this.state.username}
-        >
-        </input>
-        <input
-          name="password"
-          onChange={this.handleChange}
-          type="password"
-          value={this.state.username}
-        >
-        </input>
-        <button
-        onClick={this.handleLogin}>
-          đăng nhập
-        </button>
-        <h3>{this.state.username}</h3>
-        <h3>{this.state.password}</h3>
-        <h3>token {this.state.token}</h3>
-        <h3>{this.state.log}</h3>
-        {
-          this.state.ten.map((value, index) => <div>
-            <input
-              value={value}
-              onChange={this.handleChangeName(index)}
-            >
-            </input>
-          </div>)
-        }
-      </div>
+      <BrowserRouter history={browserRouter}>
+        <Switch>
+          {
+            this.state.routers.map(e => (
+                <Route exact path={e.path}>
+                  <e.layout>
+                    <e.component></e.component>
+                  </e.layout>
+                </Route>
+              )
+            )
+          }
+          <Route exact path ='/not-found'>
+            <h1>không tồn tại</h1>
+          </Route>
+          <Redirect from='/' to='/not-found'></Redirect>
+        </Switch>
+      </BrowserRouter>
     )
   }
 }
-
+/**
+ * /
+ * /1823718723
+ * /place-order
+ * /category/apple
+ * /order
+ * /order/31231
+ * /user
+ */
