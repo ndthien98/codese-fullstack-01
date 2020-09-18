@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import {
-  BrowserRouter,
   Switch,
   Route,
-  Redirect
-} from 'react-router-dom'
+  Redirect,
+  BrowserRouter
+} from 'react-router-dom';
+
+// Layout
 import NormalLayout from './layout/NormalLayout';
-import { browserRouter } from "react-router";
 import UserLayout from './layout/UserLayout';
-import { createBrowserHistory } from "history";
+// Routers
 import HomePage from './views/HomePage';
 import SignIn from './views/SignIn';
 import User from './views/User';
 import Cookies from 'js-cookie'
-const history = createBrowserHistory();
 
 export default class App extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ export default class App extends Component {
         },
         {
           component: SignIn,
-          layout: NormalLayout,
+          layout: 'div',
           path: '/sign-in',
         },
         {
@@ -40,7 +40,7 @@ export default class App extends Component {
   }
   render() {
     return (
-      <BrowserRouter history={browserRouter}>
+      <BrowserRouter>
         <Switch>
           {
             this.state.routers.map(e => (
@@ -61,12 +61,15 @@ export default class App extends Component {
     )
   }
 }
+
 /**
- * /
- * /1823718723
- * /place-order
- * /category/apple
- * /order
- * /order/31231
- * /user
+ * Các route cần làm
+ * /                        - trang chủ, hiển thị danh sách sản phẩm
+ * /:productId              - hiển thị chi tiết sản phẩm
+ * /order                   - hiển thị tất cả các order
+ * /order/new               - tạo mới order
+ * /category                - danh sách các loại mặt hàng
+ * /category/:categoryId    - hiển thị các sản phẩm thuộc categoryId
+ * /me                      - thông tin cá nhân
+ * /sign-in                 - trang đăng nhập
  */

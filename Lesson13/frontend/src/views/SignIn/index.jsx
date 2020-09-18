@@ -4,50 +4,64 @@ import {
   Card, CardActions, CardContent, CardHeader, TextField
 } from '@material-ui/core'
 import Cookies from 'js-cookie'
-
+import api from '../../api';
+import { createBrowserHistory } from "history";
 export default class SignIn extends Component {
-  
-  handleSignIn = async () => {
-    // const result = await api.auth.login(username, password);
-    const result = {
-      status: true,
-      token: '123'
+  constructor(props) {
+    super(props)
+    this.state = {
+      username: '',
+      password: ''
     }
+    this.history = createBrowserHistory();
+  }
+  handleSignIn = async () => {
+    const result = await api.auth.login(this.state.username, this.state.password);
     if (result.status) {
       Cookies.set('token', result.token);
-      // window.location = '/';
+      this.history.push('/')
       console.log(this.props.history);
-      
     } else {
-      alert('Đăng nhập thất bại');
+      alert(result.message);
     }
   }
   handleSignUp = () => {
-    
+    this.history.push('/sign-up')
   }
   render() {
     return (
-      <Card>
+      <Card style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column'
+        }}>
         <CardHeader title="Đăng nhập"></CardHeader>
-        <CardContent>
+        <CardContent style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column'
+        }}>
           <TextField
-            type="email"
+            label="Tài khoản"
+            onChange={(event)=>this.setState({username: event.target.value})}
           ></TextField>
           <TextField
+            label="Mật khẩu"
+            onChange={(event)=>this.setState({password: event.target.value})}
             type="password"
-          ></TextField>
-          <TextField
-            type="number"
-          ></TextField>
-          <TextField
-            type="date"
           ></TextField>
         </CardContent>
         <CardActions>
           <Button
+            variant="contained"
+            color="primary"
             onClick={this.handleSignIn}
           >Đăng nhập</Button>
           <Button
+            variant="outlined"
+            color="primary"
             onClick={this.handleSignUp}
           >Đăng ký</Button>
         </CardActions>

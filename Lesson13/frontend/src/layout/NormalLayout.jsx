@@ -8,7 +8,7 @@ import {
 export default class NormalLayout extends Component {
   constructor(props) {
     super(props);
- this.navigation = [
+    this.navigation = [
         {
           name: 'Trang chủ',
           icon: HomePageIcon,
@@ -24,7 +24,8 @@ export default class NormalLayout extends Component {
           icon: AccountCircle,
           link: '/order'
         }
-      ]  }
+    ]
+  };
   render() {
     return (
       <div>
@@ -41,7 +42,7 @@ export default class NormalLayout extends Component {
           </div>
           <div style={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: "row",
 
           }}>
             <div style={{
