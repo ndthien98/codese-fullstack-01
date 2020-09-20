@@ -44,10 +44,6 @@ const create = async ({ display, description, imageUrl }) => {
   await db.query(sql, [display, description, imageUrl]);
 };
 
-// const createCategory = (category) => {
-//   const { display, description, imageUrl } = category;
-// }
-
 const updateById = async (id, { display, description, imageUrl }) => {
   const sql = `
   UPDATE category
@@ -60,15 +56,6 @@ const updateById = async (id, { display, description, imageUrl }) => {
 };
 
 const deleteById = async (id) => {
-  // ko nen delete han ma chi nen an di thoi 
-  // const offFK = `SET FOREIGN_KEY_CHECKS = 0;`
-  // const onFK = `SET FOREIGN_KEY_CHECKS = 1;`
-  // const sql = `
-  // DELETE FROM category
-  // WHERE categoryId = ?;`
-  // await db.query(offFK)
-  // await db.query(sql, [id])
-  // await db.query(onFK)
   const sql = `
   UPDATE category
   SET 

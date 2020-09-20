@@ -18,7 +18,7 @@ const generateToken = ({ username, role }) => {
     { username, role },
     JWT_SECRET_KEY,
     {
-      expiresIn: 1000 * 60 * 60 * 24
+      expiresIn: 86400 * 30
     }
   );
   return token;
@@ -31,7 +31,6 @@ const verifyPassword = async (password, hashedPassword) => {
       password,
       hashedPassword
     );
-  console.log(result ? 'dung' : 'sai');
   return result;
 };
 
