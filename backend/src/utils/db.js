@@ -8,6 +8,14 @@ const pool = mysql.createPool({
   database: process.env.DB_DATABASE,
 })
 
+pool.getConnection((err, con) => {
+  if (err) {
+    console.log('Connect to database fail due to: ', err);
+  } else {
+    console.log(`Connected to ${con.config.host}:${con.config.port} database ${con.config.database}`);
+  }
+})
+
 const logMySQLQuerry = (sql, params) => {
   console.log('sql: ',
     mysql.format(sql, params)
@@ -16,33 +24,33 @@ const logMySQLQuerry = (sql, params) => {
 }
 
 const query = (sql, params) => {
-  logMySQLQuerry(sql,params)
+  logMySQLQuerry(sql, params)
   return new Promise((resolve, reject) => {
     pool.query(sql, params, (err, result) => {
       if (err) reject(err)
       else resolve(result)
     })
-  })  
+  })
 }
 
 const queryOne = (sql, params) => {
-  logMySQLQuerry(sql,params)
+  logMySQLQuerry(sql, params)
   return new Promise((resolve, reject) => {
     pool.query(sql, params, (err, result) => {
       if (err) reject(err)
       else resolve(result[0])
     })
-  })    
+  })
 }
 
 const queryMulti = (sql, params) => {
-  logMySQLQuerry(sql,params)
+  logMySQLQuerry(sql, params)
   return new Promise((resolve, reject) => {
     pool.query(sql, params, (err, result) => {
       if (err) reject(err)
       else resolve(result)
     })
-  })  
+  })
 }
 
 module.exports = {

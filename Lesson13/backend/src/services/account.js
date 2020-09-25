@@ -1,7 +1,7 @@
 const db = require(`../utils/db`);
 const security = require(`../utils/security`);
 
-const create = async newAccount => {
+const create = async (newAccount) => {
   const checkExistedSQL = `
     SELECT count(username) as c FROM account WHERE username = ? ;
   `;
@@ -47,7 +47,7 @@ const create = async newAccount => {
   };
 };
 
-const getAll = async pagination => {
+const getAll = async (pagination) => {
   const sql = `
   SELECT username, role, display, email, phone, avatar, address, birthday, status
   FROM account
@@ -74,7 +74,7 @@ const getAll = async pagination => {
   };
 };
 
-const getByUsername = async username => {
+const getByUsername = async (username) => {
   const sql = `
   SELECT username, role, display, email, phone, avatar, address, birthday, status
   FROM account
@@ -111,7 +111,7 @@ const updateByUsername = async (username, data) => {
     message: `Update thành công!`,
   };
 };
-const deleteByUsername = async username => {
+const deleteByUsername = async (username) => {
   const sql = `
   UPDATE account
   SET 

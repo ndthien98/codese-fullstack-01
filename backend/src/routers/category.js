@@ -1,6 +1,5 @@
 const R = require('express').Router();
 const categoryController = require('../controllers/category')
-
 const { tryCatch } = require('../middlewares/errorHandle')
 
 R.get('/',

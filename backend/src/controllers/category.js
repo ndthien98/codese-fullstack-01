@@ -1,7 +1,6 @@
 const categoryService = require('../services/category')
 
 const getAllCategory = async (req, res) => {
-  console.log(req.query);
   const { data, metadata } = await categoryService.getAll(req.pagination) 
   res.send({
     status: 1,

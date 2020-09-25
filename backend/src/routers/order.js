@@ -1,6 +1,5 @@
 const R = require('express').Router();
 const orderController = require('../controllers/order')
-
 const { tryCatch } = require('../middlewares/errorHandle')
 
 R.get('/',
