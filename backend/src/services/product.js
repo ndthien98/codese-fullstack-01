@@ -33,11 +33,11 @@ const getById = async (id) => {
     data
   }
 }
-const create = async ({display, provider,description, imageUrl,priceIn, priceOut, priceSale,shipday, instock, status, categoryId }) => {
+const create = async ({ display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId }) => {
   const sql = `
   INSERT INTO product(productId, display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId) 
   VALUES(uuid(),?,?,?,?,?,?,?,?,?,?,?);`
-  await db.query(sql,[display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId])
+  await db.query(sql, [display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId])
 }
 const updateById = async (
   productId,
@@ -58,7 +58,7 @@ const updateById = async (
     categoryId  = ?
   WHERE productId = ? AND isDelete = 0;
   ;`;
-  await db.query(sql,[display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId, productId])
+  await db.query(sql, [display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId, productId])
 }
 const deleteById = async (id) => {
   const sql = `
@@ -75,11 +75,6 @@ const getAllId = async () => {
   FROM product
   WHERE isDelete = 0`
   const data = await db.queryMulti(sql);
-  // db.queryMulti(sql).then(data => {
-    
-  // }).catch(err => {
-    
-  // })
   return {
     data,
     metadata: {
@@ -87,6 +82,7 @@ const getAllId = async () => {
     }
   }
 };
+
 
 module.exports = {
   getAll,

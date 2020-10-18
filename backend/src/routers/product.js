@@ -13,7 +13,7 @@ R.post('/',
 
 R.put('/:id',
   tryCatch(productController.updateProduct));
-  
+
 R.delete('/:id',
   tryCatch(productController.deleteProduct));
 

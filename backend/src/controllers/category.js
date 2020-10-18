@@ -1,7 +1,7 @@
 const categoryService = require('../services/category')
 
 const getAllCategory = async (req, res) => {
-  const { data, metadata } = await categoryService.getAll(req.pagination) 
+  const { data, metadata } = await categoryService.getAll(req.pagination)
   res.send({
     status: 1,
     data,
@@ -13,10 +13,24 @@ const getCategoryById = async (req, res) => {
   const { id } = req.params;
   const { data } = await categoryService.getById(id);
   res.send({
-      status: 1,
-      data
-    })
+    status: 1,
+    data
+  })
 }
+
+const getProductOfCategory = async (req, res) => {
+  const { id } = req.params;
+  const { data, metadata } = await categoryService.getProductOfCategory({
+    ...req.pagination,
+    categoryId: id
+  });
+  res.send({
+    status: 1,
+    data,
+    metadata
+  })
+}
+
 const createCategory = async (req, res) => {
   await categoryService.create(req.body)
   res.send({
@@ -44,5 +58,6 @@ module.exports = {
   getCategoryById,
   createCategory,
   updateCategory,
-  deleteCategory
+  deleteCategory,
+  getProductOfCategory
 }

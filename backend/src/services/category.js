@@ -1,15 +1,15 @@
 // model = định nghĩa, mô hình hoá, và truy xuất dữ liệu và interface
 const db = require('../utils/db')
 
-const getAll = async ({ limit, offset}) => {
+const getAll = async ({ limit, offset }) => {
   const sql = `
   SELECT display, description, imageUrl, categoryId
   FROM category
   WHERE isDelete = 0
   LIMIT ?
   OFFSET ?`
-  const data = await db.queryMulti(sql,[limit, offset]);
-  
+  const data = await db.queryMulti(sql, [limit, offset]);
+
   const countSql = `
   SELECT count(categoryId) as total
   FROM category;`;
@@ -37,7 +37,7 @@ const getById = async (id) => {
 };
 
 const create = async ({ display, description, imageUrl }) => {
-  console.log({ display, description, imageUrl });  
+  console.log({ display, description, imageUrl });
   const sql = `
   INSERT INTO category(categoryId,display,description,imageUrl)
   VALUES(uuid(), ?, ?, ?);`
@@ -78,11 +78,36 @@ const getAllId = async () => {
   }
 };
 
+
+const getProductOfCategory = async ({ limit, offset, categoryId }) => {
+  const sql = `
+  SELECT productId, display, provider, description, imageUrl, priceIn, priceOut, priceSale, shipday, instock, status, categoryId, created_at, updated_at
+  FROM product
+  WHERE isDelete = 0 AND categoryId = ? 
+  LIMIT ? 
+  OFFSET ?;`
+  const data = await db.queryMulti(sql, [categoryId, limit, offset]);
+
+  const countSql = `
+  SELECT count(productId) as total
+  FROM product;`;
+  const { total } = await db.queryOne(countSql);
+
+  return {
+    data,
+    metadata: {
+      length: data.length,
+      total
+    }
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   updateById,
   deleteById,
-  getAllId
+  getAllId,
+  getProductOfCategory
 }

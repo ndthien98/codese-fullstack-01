@@ -8,12 +8,15 @@ R.get('/',
 R.get('/:id',
   tryCatch(categoryController.getCategoryById))
 
+R.get('/:id/product',
+  tryCatch(categoryController.getProductOfCategory))
+
 R.post('/',
   tryCatch(categoryController.createCategory))
 
 R.put('/:id',
   tryCatch(categoryController.updateCategory))
-  
+
 R.delete('/:id',
   tryCatch(categoryController.deleteCategory))
 

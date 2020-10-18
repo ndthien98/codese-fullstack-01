@@ -2,18 +2,16 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const express = require('express')
-const path = require('path')
-const bodyParser = require('body-parser')
-const morgan = require('morgan')
-const rfs = require('rotating-file-stream')
-const cors = require('cors')
 
+const bodyParser = require('body-parser')
+const cors = require('cors')
 const pagination = require('./middlewares/pagination')
 const { errorHandle, pageNotFound } = require('./middlewares/errorHandle')
+const { printLog, printFile } = require('./middlewares/logger')
 
 const app = express()
 
-// 1. config app
+// 1. config middlewares
 app.use(bodyParser.json());
 app.use(cors(
   {
@@ -23,21 +21,9 @@ app.use(cors(
     optionsSuccessStatus: 200,
   }
 ));
-
-var accessLogStream = rfs.createStream('access.log', {
-  interval: '1d', // rotate daily log
-  path: path.join(__dirname, 'log')
-})
-app.use(morgan('combined', { stream: accessLogStream }))
+app.use(printFile)
 app.use(pagination)
-app.use((req, res, next) => {
-  console.log('------------------------------------------------------');
-  console.log('req', req.method, req.originalUrl);
-  console.log('body: ', req.body);
-  console.log('params: ', req.params);
-  console.log('query: ', req.query);
-  next();
-})
+app.use(printLog)
 
 // 2. router
 const parameterRouter = require('./routers/parameter')

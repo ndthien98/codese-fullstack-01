@@ -3,9 +3,9 @@ const accountController = require(`../controllers/account`);
 const { tryCatch } = require(`../middlewares/errorHandle`);
 const pagination = require(`../middlewares/pagination`);
 
-R.post(`/`, tryCatch(accountController.createAccount));
-
 R.get(`/`, pagination, tryCatch(accountController.getAllAccount));
+
+R.post(`/`, tryCatch(accountController.createAccount));
 
 R.get(`/:username`, tryCatch(accountController.getAccountByUsername));
 
