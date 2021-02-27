@@ -10,3 +10,4 @@
 ::1 - - [18/Oct/2020:07:00:48 +0000] "GET /api/v1/category/5f80806d-a95a-3fcb-830f-7817a4c11a6d/product HTTP/1.1" 200 4557 "-" "PostmanRuntime/7.26.5"
 ::1 - - [18/Oct/2020:07:01:36 +0000] "GET /api/v1/category/5f80806d-a95a-3fcb-830f-7817a4c11a6d/product HTTP/1.1" 200 4557 "-" "PostmanRuntime/7.26.5"
 ::1 - - [18/Oct/2020:07:01:46 +0000] "GET /api/v1/category/5f80806d-a95a-3fcb-830f-7817a4c11a6d/product HTTP/1.1" 200 4594 "-" "PostmanRuntime/7.26.5"
+::1 - - [18/Oct/2020:11:44:21 +0000] "POST /api/v1/account/ HTTP/1.1" 200 57 "-" "PostmanRuntime/7.26.5"

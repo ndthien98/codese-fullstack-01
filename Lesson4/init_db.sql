@@ -11,7 +11,7 @@ use `shopese-thien`;
 
 drop table if exists `account`;
 create table `account`(
-`username` nvarchar(100) primary key,
+`username` nvarchar(100) primary key on delete set null,
 `password` nvarchar(100) not null,
 `role` enum('ADMIN','STAFF','USER'), -- enumerator 
 `display` nvarchar(100),

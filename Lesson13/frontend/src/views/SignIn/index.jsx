@@ -13,10 +13,11 @@ export default class SignIn extends Component {
       username: '',
       password: ''
     }
-    this.history = createBrowserHistory();
+    this.history = createBrowserHistory({forceRefresh: true});
   }
   handleSignIn = async () => {
     const result = await api.auth.login(this.state.username, this.state.password);
+    result.status = true;
     if (result.status) {
       Cookies.set('token', result.token);
       this.history.push('/')
